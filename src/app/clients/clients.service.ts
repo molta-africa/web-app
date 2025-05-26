@@ -413,6 +413,6 @@ export class ClientsService {
         ]
       };
     }
-    return this.http.post(`/v2/clients/search`, request);
+    return this.http.post(`/v2/clients/molta/search`, request);
   }
 }
