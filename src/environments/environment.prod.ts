@@ -29,6 +29,7 @@ export const environment = {
     serverUrl: loadedEnv['oauthServerUrl'] || '',
     appId: loadedEnv['oauthAppId'] || ''
   },
+  customOAuthEnabled: loadedEnv['customOAuthEnabled'] || true,
   warningDialog: {
     title: 'Warning',
     content:

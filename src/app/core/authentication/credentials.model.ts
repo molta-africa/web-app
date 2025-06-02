@@ -3,6 +3,7 @@
  */
 export interface Credentials {
   accessToken?: string;
+  bearerToken?: string;
   authenticated: boolean;
   base64EncodedAuthenticationKey?: string;
   isTwoFactorAuthenticationRequired?: boolean;

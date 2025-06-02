@@ -200,6 +200,8 @@ export class AuthenticationService {
     this.userLoggedIn = true;
     if (environment.oauth.enabled) {
       this.authenticationInterceptor.setAuthorizationToken(credentials.accessToken);
+    } else if (environment.customOAuthEnabled) {
+      this.authenticationInterceptor.setAuthorizationToken(credentials.bearerToken);
     } else {
       this.authenticationInterceptor.setAuthorizationToken(credentials.base64EncodedAuthenticationKey);
     }

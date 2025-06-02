@@ -41,6 +41,9 @@
   // OAuth Server URL
   window['env']['oauthServerUrl'] = '$MIFOS_OAUTH_SERVER_URL';
 
+  // Custom OAuth (Self Signed)
+  window['env']['customOAuthEnabled'] = '$MIFOS_CUSTOM_OAUTH_ENABLED';
+
   // OAuth Client Id
   window['env']['oauthAppId'] = '$MIFOS_OAUTH_CLIENT_ID';
 
