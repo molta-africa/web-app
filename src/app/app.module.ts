@@ -46,6 +46,7 @@ import {
   MissingTranslationHandlerParams
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LoanModule } from './loan/loan.module';
 
 export class CustomMissingTranslationHandler implements MissingTranslationHandler {
   handle(params: MissingTranslationHandlerParams): string {
@@ -100,6 +101,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     OrganizationModule,
     TemplatesModule,
     UsersModule,
+    LoanModule,
     NotificationsModule,
     SearchModule,
     CollectionsModule,
