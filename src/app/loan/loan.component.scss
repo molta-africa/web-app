@@ -1,0 +1,46 @@
+.container {
+  padding: 1%;
+  margin: 0 auto;
+}
+
+.search-box {
+  min-width: 20rem;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-paginator {
+  margin-top: 1rem;
+}
+
+.select-row:hover {
+  cursor: pointer;
+}
+
+/* Amount styling */
+.r-amount {
+  text-align: right;
+}
+
+.amount-minus {
+  color: #f44336;
+}
+
+.amount-plus {
+  color: #4caf50;
+}
+
+.table-data {
+  padding: 0.8rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Responsive adjustments */
+@media (width <= 600px) {
+  .search-box {
+    min-width: 100%;
+  }
+}
