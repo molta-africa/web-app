@@ -79,7 +79,9 @@ export class AuthenticationService {
       if (environment.oauth.enabled) {
         this.refreshOAuthAccessToken();
       } else {
-        authenticationInterceptor.setAuthorizationToken(savedCredentials.base64EncodedAuthenticationKey);
+        authenticationInterceptor.setAuthorizationToken(
+          savedCredentials.base64EncodedAuthenticationKey || savedCredentials.bearerToken
+        );
       }
       if (twoFactorAccessToken) {
         authenticationInterceptor.setTwoFactorAccessToken(twoFactorAccessToken.token);

@@ -1,0 +1,99 @@
+<mat-card class="container">
+  <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center">
+    <div class="search-box m-r-30">
+      <mat-form-field class="search-box">
+        <input
+          matInput
+          placeholder="Search by name, loan product"
+          class="search-box"
+          (keydown.enter)="search($event.target.value)"
+        />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div>
+    <div *ngIf="isLoading">
+      <div class="loading"></div>
+    </div>
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChanged($event)">
+      <!-- Loaner Name Column -->
+      <ng-container matColumnDef="loaner">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'labels.inputs.Name' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row" class="table-data">
+          <fa-icon *ngIf="row.inArrears" icon="stop" style="color: red"></fa-icon>
+          <fa-icon *ngIf="!row.inArrears && !row.status.pendingApproval" icon="stop" style="color: green"></fa-icon>
+          <fa-icon *ngIf="!row.inArrears && row.status.pendingApproval" icon="stop" style="color: #ffa500"></fa-icon>
+          <span class="m-l-10">{{ row.clientName || row.group.name }}</span>
+        </td>
+      </ng-container>
+
+      <!-- Product Column -->
+      <ng-container matColumnDef="product">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'labels.heading.Loan Products' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.loanProductName }}</td>
+      </ng-container>
+
+      <!-- Original Loan Column -->
+      <ng-container matColumnDef="originalLoan">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'labels.inputs.Original Loan' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.principal | currency: row.currency.code : 'symbol-narrow' : '1.2-2' }}
+        </td>
+      </ng-container>
+
+      <!-- Loan Balance Column -->
+      <ng-container matColumnDef="loanBalance">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'labels.inputs.Loan Balance' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.summary?.totalOutstanding | currency: row.currency.code : 'symbol-narrow' : '1.2-2' }}
+        </td>
+      </ng-container>
+
+      <!-- Amount Paid Column -->
+      <ng-container matColumnDef="amountPaid">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'labels.inputs.Amount Paid' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.principal - row.summary?.totalOutstanding | currency: row.currency.code : 'symbol-narrow' : '1.2-2' }}
+        </td>
+      </ng-container>
+
+      <!-- Loan Type Column -->
+      <ng-container matColumnDef="loanType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'labels.inputs.Type' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-icon *ngIf="row.clientId" matTooltip="Individual Loan">person</mat-icon>
+          <mat-icon *ngIf="row.group?.id" matTooltip="Group Loan">group</mat-icon>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        class="select-row"
+        [routerLink]="['/clients', row.clientId, 'loans-accounts', row.id, 'general']"
+      ></tr>
+    </table>
+
+    <mat-paginator
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 50, 100]"
+      [length]="totalRows"
+      (page)="pageChanged($event)"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</mat-card>
