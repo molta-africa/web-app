@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 /** rxjs Imports */
 import { Observable } from 'rxjs';
+import { AuthenticationService } from 'app/core/authentication/authentication.service';
 /**
  * Clients service.
  */
@@ -14,7 +15,10 @@ export class ClientsService {
   /**
    * @param {HttpClient} http Http Client to send requests.
    */
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authenticationService: AuthenticationService
+  ) {}
 
   getFilteredClients(
     orderBy: string,
@@ -413,6 +417,17 @@ export class ClientsService {
         ]
       };
     }
-    return this.http.post(`/v2/clients/molta/search`, request);
+    const savedCredentials = this.authenticationService.getCredentials();
+    const userPermissions = savedCredentials.permissions;
+    if (
+      userPermissions.some((u) => [
+          'ADMIN',
+          'ALL_FUNCTIONS'
+        ].includes(u))
+    ) {
+      return this.http.post(`/v2/clients/search`, request);
+    } else {
+      return this.http.post(`/v2/clients/molta/search`, request);
+    }
   }
 }
